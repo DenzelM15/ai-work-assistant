@@ -3,7 +3,7 @@
 A lightweight **Node.js** web application that reads messy job descriptions and instantly streams back bulleted summaries alongside personalized LinkedIn networking outreach. 
 
 ## 🔗 Live Application
-👉 **[Try the Live Web App on Render](https://onrender.com)** *(Replace this with your real Render link!)*
+👉 **[Try the Live Web App on Render](https://ai-work-assistant-3-q2w6.onrender.com/)** 
 
 ## 🛠️ The Tech Stack
 * **Backend:** Node.js (ES Modules), Express.js
