@@ -1,161 +1,379 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Work Assistant</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f3f4f6;
-            margin: 0;
-            padding: 20px;
-            color: #1f2937;
-        }
-        .container {
-            max-width: 650px;
-            margin: 0 auto;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        h1 { margin-top: 0; color: #111827; font-size: 24px; }
-        label { display: block; margin: 14px 0 6px; font-weight: 600; font-size: 14px; }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
-        textarea { height: 120px; resize: vertical; }
-        button {
-            margin-top: 16px;
-            width: 100%;
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        button:hover { background-color: #1d4ed8; }
-        button:disabled { background-color: #93c5fd; cursor: not-allowed; }
-        
-        .output-container {
-            position: relative;
-            margin-top: 24px;
-        }
-        .output-box {
-            padding: 15px;
-            background: #f9fafb;
-            border-left: 4px solid #2563eb;
-            border-radius: 4px;
-            min-height: 50px;
-            white-space: pre-wrap;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: auto;
-            margin-top: 0;
-            padding: 6px 12px;
-            font-size: 12px;
-            background-color: #4b5563;
-        }
-        .copy-btn:hover { background-color: #374151; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#8B5CF6">
+  <meta name="description" content="AI Work Assistant — your practical AI companion for work, careers and productivity.">
+  <title>AI Work Assistant</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="container">
-    <h1>💼 AI Career & Work Assistant</h1>
-    <p style="color: #6b7280; font-size: 14px; margin-bottom: 20px;">Paste a job description or text to generate a summary and personalized outreach instantly.</p>
-    
-    <label for="name">Target Contact Name</label>
-    <input type="text" id="name" placeholder="e.g. David Miller (Optional)">
+  <div class="app-shell">
 
-    <label for="content">Source Text / Document Content</label>
-    <textarea id="content" placeholder="Paste the text layout or description here..."></textarea>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
 
-    <button id="submitBtn">Generate Assets</button>
+      <div class="brand">
+        <div class="brand-icon">✦</div>
+        <div>
+          <div class="brand-name">AI Work</div>
+          <div class="brand-subtitle">ASSISTANT</div>
+        </div>
+      </div>
 
-    <div class="output-container">
-        <label>Resulting Output</label>
-        <button id="copyBtn" class="copy-btn">📋 Copy Result</button>
-        <div id="output" class="output-box">Your generated workspace modules will stream out here...</div>
-    </div>
-</div>
+      <button class="new-chat-btn" id="newChatBtn">
+        <span>＋</span>
+        <span>New workspace</span>
+      </button>
 
-<script>
-    const submitBtn = document.getElementById('submitBtn');
-    const copyBtn = document.getElementById('copyBtn');
-    const outputDiv = document.getElementById('output');
+      <div class="sidebar-section">
+        <div class="sidebar-label">WORK MODES</div>
 
-    submitBtn.addEventListener('click', async () => {
-        const targetContactName = document.getElementById('name').value;
-        const content = document.getElementById('content').value;
+        <button class="side-mode active" data-mode="analyze">
+          <span class="mode-icon">✦</span>
+          <span>
+            <strong>Analyze</strong>
+            <small>Understand anything</small>
+          </span>
+        </button>
 
-        if (!content.trim()) {
-            alert('Please paste some source text content first.');
-            return;
-        }
+        <button class="side-mode" data-mode="apply">
+          <span class="mode-icon">💼</span>
+          <span>
+            <strong>Job Application</strong>
+            <small>Prepare to apply</small>
+          </span>
+        </button>
 
-        outputDiv.textContent = '';
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Analyzing and Streaming...';
-        copyBtn.textContent = '📋 Copy Result';
+        <button class="side-mode" data-mode="email">
+          <span class="mode-icon">✉</span>
+          <span>
+            <strong>Write Email</strong>
+            <small>Professional writing</small>
+          </span>
+        </button>
 
-        try {
-            const response = await fetch('/api/assist', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content, targetContactName })
-            });
+        <button class="side-mode" data-mode="summarize">
+          <span class="mode-icon">☰</span>
+          <span>
+            <strong>Summarize</strong>
+            <small>Get the essentials</small>
+          </span>
+        </button>
 
-            if (!response.ok) throw new Error('Failed response transmission');
+        <button class="side-mode" data-mode="brainstorm">
+          <span class="mode-icon">💡</span>
+          <span>
+            <strong>Brainstorm</strong>
+            <small>Generate ideas</small>
+          </span>
+        </button>
 
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) break;
-                outputDiv.textContent += decoder.decode(value, { stream: true });
-            }
-        } catch (err) {
-            outputDiv.textContent = 'System Error: Unable to complete stream connection.';
-            console.error(err);
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Generate Assets';
-        }
-    });
+        <button class="side-mode" data-mode="code">
+          <span class="mode-icon">&lt;/&gt;</span>
+          <span>
+            <strong>Code</strong>
+            <small>Build & troubleshoot</small>
+          </span>
+        </button>
+      </div>
 
-    // Copy to clipboard functionality
-    copyBtn.addEventListener('click', async () => {
-        const textToCopy = outputDiv.textContent;
-        if (!textToCopy || textToCopy.startsWith('Your generated workspace')) return;
+      <div class="sidebar-bottom">
+        <div class="sidebar-tip">
+          <span>⚡</span>
+          <div>
+            <strong>Work smarter</strong>
+            <p>Use the right mode for better results.</p>
+          </div>
+        </div>
+      </div>
 
-        try {
-            await navigator.clipboard.writeText(textToCopy);
-            copyBtn.textContent = '✅ Copied!';
-            setTimeout(() => {
-                copyBtn.textContent = '📋 Copy Result';
-            }, 2000);
-        } catch (err) {
-            alert('Failed to copy text.');
-        }
-    });
-</script>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+
+        <button class="mobile-menu" id="mobileMenuBtn" aria-label="Open menu">
+          ☰
+        </button>
+
+        <div class="topbar-title">
+          <span class="current-mode-icon" id="currentModeIcon">✦</span>
+          <div>
+            <h1 id="pageTitle">Analyze</h1>
+            <p id="pageSubtitle">Understand information and turn it into action.</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="icon-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">
+            ☾
+          </button>
+        </div>
+
+      </header>
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <!-- HERO / INPUT -->
+        <section class="workspace">
+
+          <div class="welcome">
+            <div class="welcome-badge">
+              <span class="status-dot"></span>
+              AI WORK ASSISTANT
+            </div>
+
+            <h2 id="welcomeTitle">What are you working on?</h2>
+
+            <p id="welcomeText">
+              Give me the context and I'll help you understand it,
+              improve it, or turn it into your next action.
+            </p>
+          </div>
+
+          <!-- MODE CARDS -->
+          <div class="mode-grid">
+
+            <button class="mode-card active" data-mode="analyze">
+              <div class="mode-card-icon">✦</div>
+              <div>
+                <strong>Analyze</strong>
+                <span>Break down information</span>
+              </div>
+            </button>
+
+            <button class="mode-card" data-mode="apply">
+              <div class="mode-card-icon">💼</div>
+              <div>
+                <strong>Job Application</strong>
+                <span>Prepare for opportunities</span>
+              </div>
+            </button>
+
+            <button class="mode-card" data-mode="email">
+              <div class="mode-card-icon">✉</div>
+              <div>
+                <strong>Write Email</strong>
+                <span>Create professional messages</span>
+              </div>
+            </button>
+
+            <button class="mode-card" data-mode="summarize">
+              <div class="mode-card-icon">☰</div>
+              <div>
+                <strong>Summarize</strong>
+                <span>Find the important parts</span>
+              </div>
+            </button>
+
+            <button class="mode-card" data-mode="brainstorm">
+              <div class="mode-card-icon">💡</div>
+              <div>
+                <strong>Brainstorm</strong>
+                <span>Explore practical ideas</span>
+              </div>
+            </button>
+
+            <button class="mode-card" data-mode="code">
+              <div class="mode-card-icon">&lt;/&gt;</div>
+              <div>
+                <strong>Code</strong>
+                <span>Solve technical problems</span>
+              </div>
+            </button>
+
+          </div>
+
+          <!-- INPUT CARD -->
+          <section class="input-card">
+
+            <div class="input-card-header">
+              <div>
+                <span class="input-label">YOUR REQUEST</span>
+                <span class="input-hint" id="inputHint">Paste text, ask a question, or describe what you need.</span>
+              </div>
+
+              <span class="char-count" id="charCount">0 / 10,000</span>
+            </div>
+
+            <textarea
+              id="contentInput"
+              maxlength="10000"
+              placeholder="Paste something here or tell me what you're working on..."
+              autocomplete="off"
+              spellcheck="true"
+            ></textarea>
+
+            <!-- CONTACT FIELD -->
+            <div class="contact-field hidden" id="contactField">
+              <label for="targetContactInput">TARGET CONTACT <span>(optional)</span></label>
+              <input
+                type="text"
+                id="targetContactInput"
+                placeholder="e.g. Hiring Manager, Sarah, Recruiter..."
+                autocomplete="off"
+              >
+            </div>
+
+            <div class="input-footer">
+
+              <div class="input-info">
+                <span>↵</span>
+                <span>AI will stream the response as it works</span>
+              </div>
+
+              <div class="input-actions">
+                <button class="secondary-btn" id="clearInputBtn">
+                  Clear
+                </button>
+
+                <button class="generate-btn" id="generateBtn">
+                  <span class="generate-icon">✦</span>
+                  <span>Generate</span>
+                  <span class="arrow">→</span>
+                </button>
+
+                <button class="stop-btn hidden" id="stopBtn">
+                  <span>■</span>
+                  Stop
+                </button>
+              </div>
+
+            </div>
+
+          </section>
+
+        </section>
+
+        <!-- RESPONSE -->
+        <section class="response-section hidden" id="responseSection">
+
+          <div class="response-header">
+
+            <div class="response-title">
+              <div class="assistant-avatar">✦</div>
+              <div>
+                <strong>AI Work Assistant</strong>
+                <span id="responseStatus">Response complete</span>
+              </div>
+            </div>
+
+            <div class="response-actions">
+              <button class="small-btn" id="copyBtn">
+                ⧉ Copy
+              </button>
+
+              <button class="small-btn" id="regenerateBtn">
+                ↻ Regenerate
+              </button>
+            </div>
+
+          </div>
+
+          <div class="response-body" id="responseBody"></div>
+
+          <div class="response-footer">
+            <span>AI-generated response</span>
+
+            <button class="text-btn" id="clearResponseBtn">
+              Clear response
+            </button>
+          </div>
+
+        </section>
+
+        <!-- EMPTY STATE / SUGGESTIONS -->
+        <section class="suggestions" id="suggestions">
+
+          <div class="suggestion-heading">
+            <span>QUICK START</span>
+            <p>Try one of these to get moving.</p>
+          </div>
+
+          <div class="suggestion-grid">
+
+            <button
+              class="suggestion"
+              data-suggestion="Analyze this job description and tell me what the employer is really looking for.">
+              <span>💼</span>
+              <div>
+                <strong>Analyze a job</strong>
+                <small>Find the key requirements</small>
+              </div>
+              <b>→</b>
+            </button>
+
+            <button
+              class="suggestion"
+              data-suggestion="Help me write a professional email asking about the status of my job application.">
+              <span>✉</span>
+              <div>
+                <strong>Write an email</strong>
+                <small>Create a professional message</small>
+              </div>
+              <b>→</b>
+            </button>
+
+            <button
+              class="suggestion"
+              data-suggestion="Help me brainstorm practical ways to improve my productivity this week.">
+              <span>💡</span>
+              <div>
+                <strong>Brainstorm ideas</strong>
+                <small>Turn problems into possibilities</small>
+              </div>
+              <b>→</b>
+            </button>
+
+            <button
+              class="suggestion"
+              data-suggestion="Help me troubleshoot a JavaScript problem. I will provide the code and explain what is happening.">
+              <span>&lt;/&gt;</span>
+              <div>
+                <strong>Solve a coding problem</strong>
+                <small>Debug and build faster</small>
+              </div>
+              <b>→</b>
+            </button>
+
+          </div>
+
+        </section>
+
+      </div>
+
+      <footer class="footer">
+        <span>AI Work Assistant</span>
+        <span>Built for practical work & productivity</span>
+      </footer>
+
+    </main>
+
+  </div>
+
+  <!-- MOBILE OVERLAY -->
+  <div class="sidebar-overlay hidden" id="sidebarOverlay"></div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <span id="toastIcon">✓</span>
+    <span id="toastMessage">Done</span>
+  </div>
+
+  <script src="script.js"></script>
 
 </body>
 </html>
