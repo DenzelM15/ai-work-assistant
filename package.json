@@ -1,14 +1,22 @@
+
 {
-  "name": "ai-assistant",
+  "name": "ai-work-assistant",
   "version": "1.0.0",
-  "description": "",
+  "description": "An AI-powered work and career assistant",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "node --watch index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "ai",
+    "assistant",
+    "gemini",
+    "career",
+    "productivity"
+  ],
+  "author": "DenzelM15",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "@ai-sdk/google": "^4.0.76",
